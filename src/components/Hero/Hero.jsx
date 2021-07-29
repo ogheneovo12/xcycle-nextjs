@@ -12,11 +12,11 @@ function Hero(props) {
         <div className={styles.hero_box}>
           <div
             className={`${styles.auth_btn}`}>
-            <button className='btn_ghost'>login</button>
-            <button className='btn_primary'>sign up</button>
+            <Link href="/login" ><a className='btn_ghost'>login</a></Link>
+            <Link href="/sign up" ><a className='btn_primary'>sign up</a></Link>
           </div>
           <h1>
-            THE <span className='logo-text'>XCYCLE</span> NEVER ENDS
+            THE <span className='logo-text'>XYCLE</span> NEVER ENDS
           </h1>
           <p>
             Be part of the solution and not pollution. Earn, sell and contribute
