@@ -1,6 +1,18 @@
 $primary-color: #3DC8B8;
 $primary-text-color: #011311;
 $secondary-color: #1a0a05;
+//COLORS
+$red:#da0a0a;
+$green: #33d5ba;
+$light-green:#f2fffd;
+$lighter-green:#d3efea;
+$black:#303030;
+$grey:#7a869a;
+$form-bg:#f6f6f6;
+$overlay:rgba(0, 0, 0, 0.16);
+$white-bg-banner:#E5E5E5;
+$lightgreen : #EBFFFB;
+$purewhite:#FFFFFF;
 $breakpoints: (
   "phone-small": 320px,
   "phone": 400px,
@@ -45,4 +57,38 @@ $breakpoints: (
       @content;
     }
   }
+}
+
+@mixin passwordStrength{
+    @include flex-btw;
+    margin-bottom: 15px;
+    progress{
+      width: 233px;
+      height: 5px;
+      -webkit-appearance: none;
+      appearance: none;
+      @include mq("phone-wide"){
+        margin-right: 10px;
+      }
+      &::-webkit-progress-bar {
+        background-color: $lighter-green;
+        border-radius: 7px;
+      }
+      &::-webkit-progress-value {
+        border-radius: 7px;
+        // background-size: 35px 20px, 100% 100%, 100% 100%;
+      }
+      &.weak::-webkit-progress-value{
+        background: red;
+      }
+      &.fair::-webkit-progress-value{
+        background: yellow;
+      }
+      &.good::-webkit-progress-value{
+        background: orange;
+      }
+      &.strong::-webkit-progress-value{
+        background: $green;
+      }
+    }
 }

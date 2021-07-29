@@ -63,8 +63,12 @@
         border-radius: 5px;
       }
     }
+    .passwordStrength {
+      @include passwordStrength;
+    }
     //   @include flex-center(column);
   }
+
   .social_auth_btn {
     display: flex !important;
     justify-content: center;
@@ -207,3 +211,9 @@
     font-size: 14px;
   }
 }
+button#disabled{
+    filter: opacity(0.4);
+    &:hover{
+      transform: none;
+    }
+  }
