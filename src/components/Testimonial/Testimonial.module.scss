@@ -1,0 +1,52 @@
+.testimonial{
+    height: 400px;
+    text-align: center;
+    &.isActive{
+        img{
+            border-radius: 100px 0px 100px 0px;
+            filter: blur(0px);
+        }
+    }
+
+    img{
+        border-radius: 0px 100px 0px 100px;
+        filter: blur(5px);
+    }
+    .details{
+        margin-top: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+.swiperSlide{
+    display:flex;
+    justify-content: center;
+}
+
+
+
+.testimonialCarousel{
+    padding-top: 30px;
+    background-image:url("../../../assets/img/star.png"), url("../../../assets/img/star.png");
+    background-position: top left, bottom right;
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+
+    .carouselRegion{
+        margin-top: 30px;
+    }
+
+    .beforeWrapper + div + div {
+        justify-content:space-between;
+        align-items: flex-start;
+    }
+    .swiperContainer{
+        min-height: 400px;
+    }
+}

@@ -1,0 +1,48 @@
+$primary-color: #3DC8B8;
+$primary-text-color: #011311;
+$secondary-color: #1a0a05;
+$breakpoints: (
+  "phone-small": 320px,
+  "phone": 400px,
+  "phone-wide": 480px,
+  "phablet": 560px,
+  "tablet-small": 640px,
+  "tablet": 768px,
+  "fluid-out": 960px,
+  "tablet-wide": 1024px,
+  "desktop": 1248px,
+  "desktop-med": 1350px,
+  "desktop-wide": 1440px,
+  "excess": 2000px,
+);
+
+//MIXINS
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-flow: $direction;
+  justify-content: center;
+  align-items: center;
+}
+@mixin flex-btw($direction: row, $wrap: nowrap) {
+  display: flex;
+  flex-flow: $direction;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: $wrap;
+}
+@mixin flex-even($direction: row, $wrap: nowrap) {
+  display: flex;
+  flex-flow: $direction;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: $wrap;
+}
+
+@mixin mq($width, $type: max) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}

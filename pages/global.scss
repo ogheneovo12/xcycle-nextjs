@@ -1,0 +1,123 @@
+@import "../assets/scss_config.scss";
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+//SELECTORS STYLES
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+section {
+  min-height: 100vh;
+}
+
+html,
+body {
+  font-family: "Calibri", sans-serif, "Helvetica Neue";
+  font-weight: 400;
+  font-size: 18px;
+  color: $primary-text-color;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+}
+ul,
+li {
+  list-style: none;
+}
+
+.pageWrap {
+  margin: 0 auto;
+  max-width: 1340px;
+  padding: 0 30px;
+
+  @include mq("desktop-med", "min") {
+    padding: 0px;
+  }
+  @include mq("tablet", "min") {
+    padding: 0px 50px;
+  }
+  @include mq("phone") {
+    padding: 0px 20px;
+  }
+}
+
+%btn {
+  padding: 10px 20px;
+  max-width: 151px;
+  width: 100%;
+  font-weight: 600;
+  padding: 15.5px 20px;
+  text-align: center;
+  border: none;
+  text-transform: capitalize;
+}
+
+.btn_ghost {
+  @extend %btn;
+  background-color: transparent;
+  border: 2px solid $primary-color;
+  color: $primary-color;
+}
+.btn_primary {
+  @extend %btn;
+  background-color: $primary-color;
+  color: #fff;
+}
+
+.logo-text {
+  font-family: "Luckiest Guy";
+  color: $primary-color;
+  letter-spacing: 0.5px;
+}
+
+.title {
+  h2 {
+    font-size: 36px;
+    font-weight: bold;
+    color: $primary-color;
+  }
+  p {
+    color: $primary-text-color;
+  }
+  &.center {
+    text-align: center;
+  }
+  &.dark{
+      h2{
+          color:#000;
+      }
+  }
+}
+
+.bt-bd{
+    border-bottom: 1px solid $primary-color;
+}
+
+#bff{
+    @media (max-width:600px){
+        h2{
+            font-size: 20px;
+            img{
+                width: 100px;
+            }
+        }
+
+    }
+    
+}
+
+.footer{
+    background: $primary-color;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color:#fff;
+    font-size:30px;
+    svg{
+        margin: 0 20px;
+    }
+}
+

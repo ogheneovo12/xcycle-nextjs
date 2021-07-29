@@ -1,0 +1,33 @@
+@import "../../../assets/scss_config.scss";
+.wastebox {
+  width: 250px;
+  min-height: 300px;
+  padding: 10px 20px;
+  &.isActive {
+    border: 1px solid $primary-color;
+  }
+
+  img {
+    width: 208px;
+    height: 196px;
+  }
+  .details {
+    h3 {
+      font-weight: 400;
+      text-transform: capitalize;
+      margin-top: 10px;
+    }
+    .price {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      p {
+        font-weight: 700;
+        font-size: 20px;
+      }
+      a {
+        color: #18756a;
+      }
+    }
+  }
+}
