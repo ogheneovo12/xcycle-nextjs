@@ -112,7 +112,7 @@ function Register(props) {
     e.preventDefault();
     if (validateAll()) return;
     const {
-      name: { value: username },
+      username: { value: username },
       email: { value: email },
       password: { value: password },
     } = regDetails;
@@ -125,7 +125,7 @@ function Register(props) {
     setServerError("");
     const res = await fetch("http://xycle.herokuapp.com/auth/register", {
       method: "POST",
-      body: JSON.stringify(credentials),
+      body: JSON.stringify({ username, email, password}),
       headers: { "Content-Type": "application/json" },
     });
     const user = await res.json();
