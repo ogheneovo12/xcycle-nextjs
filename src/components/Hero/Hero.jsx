@@ -13,7 +13,7 @@ function Hero(props) {
           <div
             className={`${styles.auth_btn}`}>
             <Link href="/login" ><a className='btn_ghost'>login</a></Link>
-            <Link href="/sign up" ><a className='btn_primary'>sign up</a></Link>
+            <Link href="/signup" ><a className='btn_primary'>sign up</a></Link>
           </div>
           <h1>
             THE <span className='logo-text'>XYCLE</span> NEVER ENDS

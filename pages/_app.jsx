@@ -1,5 +1,6 @@
 import React from "react";
-import "./global.scss";
+import "./globalstyles/global.scss";
+import "./globalstyles/authForm.scss";
 
 
 

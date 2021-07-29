@@ -51,7 +51,7 @@ function Header(props) {
           <div
             className={`${HeaderStyles.auth_btn} ${HeaderStyles.visibleAuthMenu}`}>
            <Link href="/login" ><a className='btn_ghost'>login</a></Link>
-            <Link href="/register" ><a className='btn_primary'>sign up</a></Link>
+            <Link href="/signup" ><a className='btn_primary'>sign up</a></Link>
           </div>
           <span onClick={toggleMenu} className={HeaderStyles.close}>x</span>
         </div>
