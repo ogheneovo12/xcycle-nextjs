@@ -46,19 +46,14 @@ function Register(props) {
       value: "",
       touched: "",
       error: "",
-    },
-    confirmPassword: {
-      value: "",
-      touched: "",
-      error: "",
-    },
+    }
   });
 
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
   const [show, setShow] = useState(false);
   const [gauge, setGauge] = useState("");
-  const { username, email, password, confirmPassword } = regDetails;
+  const { username, email, password,  } = regDetails;
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -74,15 +69,9 @@ function Register(props) {
   function validate(name, value) {
     let error = "";
     try {
-      if (name === "confirmPassword") {
-        if (value !== password.value) {
-          error = "passwords do not match!";
-        } else {
-          error = "";
-        }
-      } else {
+      
         value = validationSchema[name]?.validateSync(value);
-      }
+    
     } catch (err) {
       if (err.name === "ValidationError") {
         error = err.errors.join(",");
@@ -98,9 +87,9 @@ function Register(props) {
 
   // make the submit button appear disabled if there are any errors with the input field
   function isValid() {
-    const { username, email, confirmPassword } = regDetails;
+    const { username, email } = regDetails;
     return (
-      !(username.error || email.error || confirmPassword.error) &&
+      !(username.error || email.error ) &&
       gauge === "strong"
     );
   }
@@ -126,7 +115,6 @@ function Register(props) {
       name: { value: username },
       email: { value: email },
       password: { value: password },
-      confirmPassword: { value: confirmPassword },
     } = regDetails;
 
     if (gauge !== "strong") {
