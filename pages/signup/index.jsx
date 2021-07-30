@@ -6,6 +6,7 @@ import fb from "../../assets/img/fb.png";
 import go from "../../assets/img/go.png";
 import { string as yupString } from "yup";
 import checkPasswordStrength from "../../src/Utils/PasswordGuage";
+import { useRouter } from "next/router";
 import axios from "axios";
 
 const validationSchema = {
@@ -52,6 +53,8 @@ function Register(props) {
   const [show, setShow] = useState(false);
   const [gauge, setGauge] = useState("");
   const { username, email, password } = regDetails;
+
+  const router = useRouter();
 
   const onChange = (e) => {
     const { value, name } = e.target;

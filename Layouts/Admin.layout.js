@@ -3,9 +3,20 @@ import Image from "next/image";
 import logoWhite from "../assets/img/whiteLogo.png";
 import { Flex, Heading, Avatar, Text, Icon, Link } from "@chakra-ui/react";
 import { FiHome, FiPieChart, FiDollarSign, FiBox } from "react-icons/fi";
+import { useSession } from "next-auth/client"
 
 export default function Admin({ children }) {
-  
+    const [session, loading] = useSession()
+     
+    // if (session) {
+        
+    // }
+
+
+    // if (loading){
+
+    // }
+
   return (
     <Flex
       h={[null, null, "100vh"]}
@@ -87,7 +98,7 @@ export default function Admin({ children }) {
           </Flex>
         </Flex>
       </Flex>
-
+        
       {children}
     </Flex>
   );
