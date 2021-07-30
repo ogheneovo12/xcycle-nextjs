@@ -121,3 +121,8 @@ li {
     }
 }
 
+@media (max-width:900px){
+  section{
+    min-height: 50vh;
+  }
+}

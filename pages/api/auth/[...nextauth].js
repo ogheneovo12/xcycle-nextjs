@@ -1,60 +1,62 @@
-import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers'
+import NextAuth from "next-auth";
+import Providers from "next-auth/providers";
+import axios from "axios";
 
-export default NextAuth({
-  // Configure one or more authentication providers
-  session:{
-      jwt:true,
-  },
-  providers: [
-    
-    Providers.Credentials({
-        name: 'Credentials',
-        credentials: {
-          username: { label: "username", type: "text", placeholder: "jsmith" },
-          password: {  label: "Password", type: "password" }
-        },
-        async authorize(credentials, req) {
-          // You need to provide your own logic here that takes the credentials
-          // submitted and returns either a object representing a user or value
-          // that is false/null if the credentials are invalid.
-          // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-          // You can also use the `req` object to obtain additional parameters
-          // (i.e., the request IP address) 
-          const res = await fetch("http://xycle.herokuapp.com/auth/register", {
-            method: 'POST',
-            body: JSON.stringify(credentials),
-            headers: { "Content-Type": "application/json" }
-          })
-          const user = await res.json()
-          
-          // If no error and we have user data, return it
-          if (res.ok && user) {
-            return user
+const providers = [
+  Providers.Credentials({
+    name: "Credentials",
+    async authorize(credentials, req) {
+      try {
+        const response = await axios.post(
+          "http://xycle.herokuapp.com/auth/login",
+          credentials,
+          {
+            headers: {
+              accept: "*/*",
+              "Content-Type": "application/json",
+            },
           }
-          // Return null if user data could not be retrieved
-          return null
+        );
+
+        if (response) {
+          return { status: "success", data: response.data };
         }
-      })
-    // ...add more providers here
-  ],
-  callbacks: {
-    // Getting the JWT token from API response
-    async jwt(token, user) {
-      if (user) {
-        token.accessToken = user.token
+      } catch (e) {
+        console.log(e);
+        const errorMessage = e.response.data.message;
+        // Redirecting to the login page with error message          in the URL
+        throw new Error(errorMessage + "&email=" + credentials.email);
       }
-  
-      return token
     },
-  
-    async session(session, token) {
-      session.accessToken = token.accessToken
-      return session
+  }),
+  // ...add more providers here
+];
+
+const callbacks = {
+  async jwt(token, user) {
+    console.log(user);
+    if (user) {
+      token.accessToken = user?.data.token;
     }
+
+    return token;
   },
+
+  async session(session, token) {
+    session.accessToken = token.accessToken;
+    return session;
+  },
+};
+
+const options = {
+  session: {
+    jwt: true,
+  },
+  providers,
+  callbacks,
   pages: {
-    error: '/login' // Changing the error redirect page to our custom login page
-  }
-  
-})
+    error: "/login", // Changing the error redirect page to our custom login page
+  },
+};
+
+export default (req, res) => NextAuth(req, res, options);

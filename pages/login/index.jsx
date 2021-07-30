@@ -1,12 +1,44 @@
-import React from "react";
+import React,{ useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import whiteLogo from "../../assets/img/whiteLogo.png";
 import fb from "../../assets/img/fb.png";
 import go from "../../assets/img/go.png";
+import { signIn } from "next-auth/client";
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 
 function Login(props) {
+  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [show, setShow] = useState(false);
+  const onChange = (e) =>
+    setLoginDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const togglePassword = (e) => setShow(() => !show);
+  const [loginDetails, setLoginDetails] = useState({
+    email: "",
+    password: "",
+  });
+  const router = useRouter();
+
+  const { email, password } = loginDetails;
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    loginDetails.email = loginDetails.email?.toLowerCase();
+    const { error, status, ok, url } = await signIn("credentials", {
+      ...loginDetails,
+      callbackUrl: `http://localhost:3000/dashboard`,
+      redirect: false,
+    });
+    setLoading(false);
+    if (error) setServerError(error?.message || "failed to login");
+    if (url) router.push(url);
+  }
+
+  const isValid = () => email && password;
+
   return (
     <div className='authform'>
       <div className='authform__image'>
@@ -15,26 +47,61 @@ function Login(props) {
           <h2>Let’s build a world of zero waste.</h2>
         </div>
 
-        <div class='authform__image__footnote'>
+        <div className='authform__image__footnote'>
           <p>Don’t have an account?</p>
           <Link href='/signup'>
-            <a>Sign Up</a>
+            <a>Login</a>
           </Link>
         </div>
       </div>
       <div className='authform__form'>
+        {serverError && (
+          <span
+            className='error'
+            style={{ textAlign: "center", display: "block" }}>
+            {serverError}
+          </span>
+        )}
         <form>
-          <h2 className='form_title'>Sign up</h2>
+          <h2 className='form_title'>Login</h2>
           <div className='form-row'>
-            <label htmlFor='username'>Username</label>
-            <input id='username' type='text' placeholder='username' />
+            <label htmlFor='email'>Email</label>
+            <input
+              type='email'
+              name='email'
+              id='email'
+              placeholder='email'
+              required
+              value={email}
+              onChange={onChange}
+            />
           </div>
+
           <div className='form-row'>
-            <label htmlFor='passworf'>Password</label>
-            <input id='password' type='password' placeholder='....' />
+            <label htmlFor='password'>Password</label>
+            <input
+              type={`${show ? "text" : "password"}`}
+              name='password'
+              id='password'
+              placeholder='password'
+              required
+              value={password}
+              onChange={onChange}
+            />
+            <i
+              className={`far ${show ? "fa-eye-slash" : "fa-eye"}`}
+              id='togglePassword'
+              onClick={togglePassword}></i>
           </div>
+
           <div className='form-row'>
-            <button className='submit btn_primary'>Login</button>
+            <button
+              onClick={handleSubmit}
+              type='submit'
+               id={!isValid() || loading ? "disabled" : ""}
+              className='submit btn_primary'>
+              Login
+            </button>
           </div>
           <div className='horizontal-container'>
             <span className='horizontal'></span>

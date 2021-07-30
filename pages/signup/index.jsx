@@ -6,29 +6,27 @@ import fb from "../../assets/img/fb.png";
 import go from "../../assets/img/go.png";
 import { string as yupString } from "yup";
 import checkPasswordStrength from "../../src/Utils/PasswordGuage";
-
-
+import axios from "axios";
 
 const validationSchema = {
-    username: yupString().trim()
-      .required()
-      .required("username is required")
-      .matches(/^[a-zA-Z0-9_]*$/gm, "only alphabet, numbers and underscore allowed"),
-  
-    email: yupString()
-      .trim()
-      .matches(
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        "invalid email format"
-      )
-      .required("email is required"),
-    password: yupString().required("password is required"),
-  };
-  
+  username: yupString()
+    .trim()
+    .required()
+    .required("username is required")
+    .matches(
+      /^[a-zA-Z0-9_]*$/gm,
+      "only alphabet, numbers and underscore allowed"
+    ),
 
-
-
-
+  email: yupString()
+    .trim()
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "invalid email format"
+    )
+    .required("email is required"),
+  password: yupString().required("password is required"),
+};
 
 function Register(props) {
   const [regDetails, setRegDetails] = useState({
@@ -46,14 +44,14 @@ function Register(props) {
       value: "",
       touched: "",
       error: "",
-    }
+    },
   });
 
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
   const [show, setShow] = useState(false);
   const [gauge, setGauge] = useState("");
-  const { username, email, password,  } = regDetails;
+  const { username, email, password } = regDetails;
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -69,9 +67,7 @@ function Register(props) {
   function validate(name, value) {
     let error = "";
     try {
-      
-        value = validationSchema[name]?.validateSync(value);
-    
+      value = validationSchema[name]?.validateSync(value);
     } catch (err) {
       if (err.name === "ValidationError") {
         error = err.errors.join(",");
@@ -79,6 +75,7 @@ function Register(props) {
     }
     return { value, error };
   }
+
   // check the strength of the password
   const runGauge = () => {
     let gaugeValue = checkPasswordStrength(password.value);
@@ -88,10 +85,7 @@ function Register(props) {
   // make the submit button appear disabled if there are any errors with the input field
   function isValid() {
     const { username, email } = regDetails;
-    return (
-      !(username.error || email.error ) &&
-      gauge === "strong"
-    );
+    return !(username.error || email.error) && gauge === "strong";
   }
 
   function validateAll() {
@@ -108,7 +102,7 @@ function Register(props) {
     return iserror;
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     if (validateAll()) return;
     const {
@@ -123,22 +117,25 @@ function Register(props) {
 
     setLoading(true);
     setServerError("");
-    const res = await fetch("http://xycle.herokuapp.com/auth/register", {
-      method: "POST",
-      body: JSON.stringify({ username, email, password}),
-      headers: { "Content-Type": "application/json" },
-    });
-    const user = await res.json();
-    setLoading(false);
-    // If no error and we have user data, return it
-    if (res.ok && user) {
-      console.log(user);
-    }
 
-    if (!res.ok) {
-      setServerError("failed to register");
-    }
+    axios
+      .post(
+        "/api/proxy/auth/register",
+        { username, email, password },
+        {  accept: "*/*", headers: { "Content-Type": "application/json" } }
+      )
+      .then((res) => {
+          router.push("/login");
+        if (res) {
+          console.log(res);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        setServerError(err?.message || "");
+      });
   }
+
   return (
     <div className='authform'>
       <div className='authform__image'>
@@ -147,7 +144,7 @@ function Register(props) {
           <h2>Let’s build a world of zero waste.</h2>
         </div>
 
-        <div class='authform__image__footnote'>
+        <div className='authform__image__footnote'>
           <p>Already have an account?</p>
           <Link href='/login'>
             <a>Sign In</a>
@@ -155,6 +152,16 @@ function Register(props) {
         </div>
       </div>
       <div className='authform__form'>
+
+      {serverError && (
+          <span
+            className='error'
+            style={{ textAlign: "center", display: "block" }}>
+            {serverError}
+          </span>
+        )}
+
+        
         <form>
           <h2 className='form_title'>Sign up</h2>
           <div className='form-row'>
@@ -198,8 +205,8 @@ function Register(props) {
               value={password.value}
               onChange={onChange}
               onKeyUp={runGauge}
-            //   onFocus={() => setShowTooltip(true)}
-            //   onBlur={() => setShowTooltip(false)}
+              //   onFocus={() => setShowTooltip(true)}
+              //   onBlur={() => setShowTooltip(false)}
             />
             <i
               className={`togglePassword far ${
