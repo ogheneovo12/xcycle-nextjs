@@ -29,7 +29,7 @@ function Login(props) {
     loginDetails.email = loginDetails.email?.toLowerCase();
     const { error, status, ok, url } = await signIn("credentials", {
       ...loginDetails,
-      callbackUrl: `http://localhost:3000/dashboard`,
+      callbackUrl: process.env.REMOTE_URL,
       redirect: false,
     });
     setLoading(false);

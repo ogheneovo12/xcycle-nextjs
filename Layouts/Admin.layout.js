@@ -4,18 +4,18 @@ import logoWhite from "../assets/img/whiteLogo.png";
 import { Flex, Heading, Avatar, Text, Icon, Link } from "@chakra-ui/react";
 import { FiHome, FiPieChart, FiDollarSign, FiBox } from "react-icons/fi";
 import { useSession } from "next-auth/client"
+import { useRouter } from "next/router";
 
 export default function Admin({ children }) {
-    const [session, loading] = useSession()
+    const [session, loading] = useSession();
+    const  router = useRouter();
      
-    // if (session) {
-        
-    // }
+    if (!loading && !session){
+        router.push("/login");
+    }
 
 
-    // if (loading){
-
-    // }
+    if(loading) return <h4>loading</h4>;
 
   return (
     <Flex
