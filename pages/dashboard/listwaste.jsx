@@ -78,9 +78,9 @@ function ListWaste() {
                     placeholder='eg, a plastic bottle, cow manure, 5 flat tyres'
                   />
                   {errors.title && touched.title && (
-                    <FormErrorMessage>
+                    <span className="error" >
                      {errors.title}
-                    </FormErrorMessage>
+                    </span>
                   )}
                 </FormControl>
                 <FormControl id='asking_price' mb={5}>
@@ -93,9 +93,9 @@ function ListWaste() {
                     value={values.asking_price}
                   />
                   {errors.asking_price && touched.asking_price && (
-                    <FormErrorMessage>
+                    <span className="error">
                      {errors.asking_price}
-                    </FormErrorMessage>
+                    </span>
                   )}
                 </FormControl>
                 <FormControl id='description' mb={5}>
@@ -112,9 +112,9 @@ function ListWaste() {
                     description should be informative and concise
                   </FormHelperText>
                   {errors.description && touched.description && (
-                    <FormErrorMessage>
+                    <span className="error">
                      {errors.description}
-                    </FormErrorMessage>
+                    </span>
                   )}
                 </FormControl>
                 <Button>Submit</Button>
