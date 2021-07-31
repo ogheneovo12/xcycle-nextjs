@@ -29,7 +29,7 @@ function Login(props) {
     loginDetails.email = loginDetails.email?.toLowerCase();
     const { error, status, ok, url } = await signIn("credentials", {
       ...loginDetails,
-      callbackUrl: process.env.REMOTE_URL,
+      callbackUrl: `${process.env.REMOTE_URL}/dashboard`,
       redirect: false,
     });
     setLoading(false);
@@ -99,7 +99,7 @@ function Login(props) {
               onClick={handleSubmit}
               type='submit'
                id={!isValid() || loading ? "disabled" : ""}
-              className='submit btn_primary'>
+              className='btn_primary'>
               Login
             </button>
           </div>
